@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford Mathematics: Fractions, Decimals & Percentages Mastery</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for rendering pretty math equations -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header Navigation Bar -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-indigo-500 flex items-center justify-center font-bold text-xl text-white shadow-inner">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Oxford Math Mastery</h1>
+                    <p class="text-xs text-indigo-200">Fractions, Decimals & Percentages Grade 7-8</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex space-x-1 text-sm font-medium">
+                <button onclick="switchTab('fractions')" id="tab-btn-fractions" class="tab-link px-4 py-2 rounded-lg transition-colors bg-indigo-800 text-white">1. Pecahan</button>
+                <button onclick="switchTab('decimals')" id="tab-btn-decimals" class="tab-link px-4 py-2 rounded-lg transition-colors text-indigo-200 hover:bg-indigo-800 hover:text-white">2. Desimal</button>
+                <button onclick="switchTab('percents')" id="tab-btn-percents" class="tab-link px-4 py-2 rounded-lg transition-colors text-indigo-200 hover:bg-indigo-800 hover:text-white">3. Persen</button>
+                <button onclick="switchTab('applications')" id="tab-btn-applications" class="tab-link px-4 py-2 rounded-lg transition-colors text-indigo-200 hover:bg-indigo-800 hover:text-white">4. Soal Aplikasi (Exam)</button>
+                <button onclick="switchTab('practice')" id="tab-btn-practice" class="tab-link px-4 py-2 rounded-lg transition-colors text-indigo-200 hover:bg-indigo-800 hover:text-white">5. Interactive Quiz</button>
+            </nav>
+            <div class="md:hidden">
+                <select id="mobile-nav" onchange="switchTab(this.value)" class="bg-indigo-800 text-white text-sm rounded-lg px-3 py-2 border border-indigo-700 focus:outline-none">
+                    <option value="fractions">1. Pecahan</option>
+                    <option value="decimals">2. Desimal</option>
+                    <option value="percents">3. Persen</option>
+                    <option value="applications">4. Soal Aplikasi</option>
+                    <option value="practice">5. Interactive Quiz</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- TAB 1: OPERASI PECAHAN -->
+        <section id="tab-fractions" class="tab-content space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Oxford Standard Chapter 1</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-2">Operasi Pada Pecahan (Fractions)</h2>
+                    <p class="text-slate-600 text-sm mt-1">Aturan penjumlahan, pengurangan, perkalian, dan pembagian pecahan biasa serta campuran.</p>
+                </div>
+
+                <!-- Section 1.1: Penjumlahan & Pengurangan -->
+                <div class="space-y-6">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-indigo-600 text-white text-xs rounded-full flex items-center justify-center">1</span>
+                            Penjumlahan & Pengurangan Pecahan (Addition & Subtraction)
+                        </h3>
+                        <p class="text-slate-600 text-sm mt-2">
+                            <strong>Aturan Utama:</strong> Untuk menjumlahkan atau mengurangkan pecahan, <em>penyebut (denominator) harus disamakan terlebih dahulu</em> menggunakan Kelipatan Persekutuan Terkecil (KPK / LCM).
+                        </p>
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-semibold text-slate-700 text-sm mb-2">Langkah Kerja:</h4>
+                                <ol class="list-decimal list-inside text-xs text-slate-600 space-y-1">
+                                    <li>Ubah pecahan campuran menjadi pecahan biasa (jika ada).</li>
+                                    <li>Cari KPK penyebut untuk menyamakan penyebut.</li>
+                                    <li>Sesuaikan pembilang (numerator) sebanding.</li>
+                                    <li>Jumlahkan/kurangkan pembilang saja, penyebut tetap.</li>
+                                    <li>Sederhanakan pecahan akhir (simplest form).</li>
+                                </ol>
+                            </div>
+                            <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100">
+                                <h4 class="font-semibold text-indigo-900 text-sm mb-2">Contoh Soal (Example):</h4>
+                                <p class="text-xs text-slate-700 mb-1">Hitung: \(\frac{3}{8} + \frac{5}{12}\)</p>
+                                <p class="text-xs text-slate-600">
+                                    KPK dari 8 dan 12 adalah 24.<br>
+                                    \(\frac{3 \times 3}{8 \times 3} + \frac{5 \times 2}{12 \times 2} = \frac{9}{24} + \frac{10}{24} = \frac{19}{24}\)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 1.2: Perkalian -->
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-indigo-600 text-white text-xs rounded-full flex items-center justify-center">2</span>
+                            Perkalian Pecahan (Multiplication of Fractions)
+                        </h3>
+                        <p class="text-slate-600 text-sm mt-2">
+                            <strong>Aturan Utama:</strong> Kalikan pembilang dengan pembilang, dan penyebut dengan penyebut. <em>TIDAK PERLU menyamakan penyebut!</em>
+                        </p>
+                        <div class="mt-4 bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+                            <h4 class="font-bold text-amber-800 text-xs uppercase tracking-wider">Tips Metode Coret (Cross-Simplification / Cancelling):</h4>
+                            <p class="text-xs text-amber-900 mt-1">
+                                Sederhanakan faktor persekutuan antara pembilang mana saja dengan penyebut mana saja <strong>sebelum</strong> dikalikan untuk mempermudah hitungan!
+                            </p>
+                            <p class="text-xs font-mono text-amber-950 mt-2 bg-white p-2 rounded border border-amber-200 inline-block">
+                                \(\frac{a}{b} \times \frac{c}{d} = \frac{a \times c}{b \times d}\)
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Section 1.3: Pembagian -->
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-indigo-600 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                            Pembagian Pecahan: Metode Langsung & Flip (KCF Method)
+                        </h3>
+                        <p class="text-slate-600 text-sm mt-2">
+                            Dalam standar Oxford, pembagian pecahan dipahami sebagai "Berapa banyak bagian \(\frac{c}{d}\) di dalam \(\frac{a}{b}\)".
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-bold text-indigo-700 text-sm mb-1"><i class="fa-solid fa-arrows-rotate mr-1"></i> Metode 1: Flip & Multiply (KCF Rule)</h4>
+                                <p class="text-xs text-slate-600 mb-2"><strong>Keep, Change, Flip:</strong> Simpan pecahan 1, Ubah \(\div\) jadi \(\times\), Balik pecahan 2 (reciprocal).</p>
+                                <div class="bg-slate-100 p-3 rounded text-center text-xs">
+                                    $$\frac{a}{b} \div \frac{c}{d} = \frac{a}{b} \times \frac{d}{c} = \frac{ad}{bc}$$
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-lg border border-slate-200">
+                                <h4 class="font-bold text-indigo-700 text-sm mb-1"><i class="fa-solid fa-bolt mr-1"></i> Metode 2: Pembagian Langsung (Direct Division)</h4>
+                                <p class="text-xs text-slate-600 mb-2">Bisa dilakukan langsung jika pembilang habis dibagi pembilang dan penyebut habis dibagi penyebut.</p>
+                                <div class="bg-slate-100 p-3 rounded text-center text-xs">
+                                    $$\frac{8}{15} \div \frac{2}{3} = \frac{8 \div 2}{15 \div 3} = \frac{4}{5}$$
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: OPERASI DESIMAL -->
+        <section id="tab-decimals" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Oxford Standard Chapter 2</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-2">Operasi Desimal (Decimals Mastery)</h2>
+                    <p class="text-slate-600 text-sm mt-1">Penjumlahan, pengurangan, perkalian, pembagian, serta trik pengerjaan cepat (Mental & Written Methods).</p>
+                </div>
+
+                <!-- Section 2.1: Penjumlahan & Pengurangan Desimal -->
+                <div class="space-y-6">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-emerald-600 text-white text-xs rounded-full flex items-center justify-center">1</span>
+                            Penjumlahan & Pengurangan Desimal
+                        </h3>
+                        <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="md:col-span-2 text-sm text-slate-600 space-y-2">
+                                <p><strong>Aturan Emas:</strong> Tye-up / Sejajarkan <strong>Tanda Koma (Decimal Point)</strong> secara vertikal.</p>
+                                <p>Tambahkan angka \(0\) bayangan di kanan jika jumlah digit di belakang koma tidak sama (placeholder zeroes).</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-slate-200 text-xs code-font">
+                                <div class="text-right tracking-widest text-slate-700">
+                                    &nbsp;&nbsp;13.700<br>
+                                    -&nbsp;8.140<br>
+                                    <hr class="my-1 border-slate-400">
+                                    &nbsp;&nbsp;&nbsp;5.560
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2.2: Perkalian Desimal -->
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-emerald-600 text-white text-xs rounded-full flex items-center justify-center">2</span>
+                            Perkalian Desimal (Multiplication Rules & Shortcuts)
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Desimal x Bilangan Bulat -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Kasus A</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">Desimal \(\times\) Bilangan Bulat</h4>
+                                <p class="text-xs text-slate-600 mt-1">Abaikan koma terlebih dahulu, lakukan perkalian bersusun biasa, lalu kembalikan koma sejumlah angka desimal awal.</p>
+                                <div class="bg-slate-50 p-3 rounded-lg mt-3 text-xs space-y-1">
+                                    <p class="font-semibold text-slate-700">Contoh: \(2.13 \times 4\)</p>
+                                    <p>1. Hitung \(213 \times 4 = 852\)</p>
+                                    <p>2. Ada 2 angka di belakang koma (\(2.13\)).</p>
+                                    <p>3. Hasil akhir: <strong>\(8.52\)</strong></p>
+                                </div>
+                            </div>
+
+                            <!-- Desimal x Desimal -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Kasus B</span>
+                                <h4 class="font-bold text-slate-800 text-sm mt-1">Desimal \(\times\) Desimal</h4>
+                                <p class="text-xs text-slate-600 mt-1">Jumlahkan <em>total tempat desimal (decimal places)</em> dari kedua bilangan!</p>
+                                <div class="bg-slate-50 p-3 rounded-lg mt-3 text-xs space-y-1">
+                                    <p class="font-semibold text-slate-700">Contoh: \(2.13 \times 4.2\)</p>
+                                    <p>1. Hitung \(213 \times 42 = 8946\)</p>
+                                    <p>2. Total desimal: \(2.13\) (2 angka) + \(4.2\) (1 angka) = 3 angka.</p>
+                                    <p>3. Geser koma 3 tempat ke kiri: <strong>\(8.946\)</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2.3: Pembagian Desimal -->
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <span class="w-6 h-6 bg-emerald-600 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                            Pembagian Desimal (Division Rules & Hacks)
+                        </h3>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Pembagian Desimal dgn Bil. Bulat -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-sm">Desimal \(\div\) Bilangan Bulat</h4>
+                                <p class="text-xs text-slate-600 mt-1">Gunakan pembagian bersusun (long division / busur). Naikkan titik koma lurus tepat ke atas ke tempat hasil.</p>
+                                <div class="bg-emerald-50/60 p-3 rounded-lg mt-3 text-xs text-emerald-900 border border-emerald-100">
+                                    <strong>Contoh:</strong> \(14.4 \div 6 = 2.4\)
+                                </div>
+                            </div>
+
+                            <!-- Pembagian Desimal dgn Desimal -->
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-slate-800 text-sm">Desimal \(\div\) Desimal (Trik Penting)</h4>
+                                <p class="text-xs text-slate-600 mt-1"><strong>Langkah Utama:</strong> Ubah pembagi (divisor) menjadi bilangan bulat dengan mengalikan kelipatan 10 (\(10, 100, 1000\)). Kalikan bilangan yang dibagi dengan kelipatan yang <em>sama</em>!</p>
+                                <div class="bg-emerald-50/60 p-3 rounded-lg mt-3 text-xs text-emerald-900 border border-emerald-100 space-y-1">
+                                    <p><strong>Hitung:</strong> \(3.496 \div 2.3\)</p>
+                                    <p>1. Ubah \(2.3\) jadi bulat \(\rightarrow 2.3 \times 10 = 23\).</p>
+                                    <p>2. Kalikan juga \(3.496 \times 10 = 34.96\).</p>
+                                    <p>3. Sekarang hitung: \(34.96 \div 23 = \mathbf{1.52}\)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tips Trik Ujian Oxford -->
+                        <div class="mt-4 bg-amber-50 rounded-xl p-4 border border-amber-200">
+                            <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-lightbulb text-amber-600"></i> Oxford Exam Strategy: Fact-Based Calculations
+                            </h4>
+                            <p class="text-xs text-amber-800 mt-1">
+                                Di ujian Oxford, sering ada soal berpola: <em>"Use the fact that \(24 \times 35 = 840\) to answer..."</em><br>
+                                <strong>Trik:</strong> Jangan menghitung ulang dari nol! Gunakan pergeseran tempat nilai desimal.
+                            </p>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3 text-xs">
+                                <div class="bg-white p-2 rounded border border-amber-200 font-mono">
+                                    \(24 \times 0.35 = \mathbf{8.4}\)<br>
+                                    <span class="text-[10px] text-slate-500">(geser koma 2 kali)</span>
+                                </div>
+                                <div class="bg-white p-2 rounded border border-amber-200 font-mono">
+                                    \(840 \div 3.5 = \mathbf{240}\)<br>
+                                    <span class="text-[10px] text-slate-500">(\(8400 \div 35\))</span>
+                                </div>
+                                <div class="bg-white p-2 rounded border border-amber-200 font-mono">
+                                    \(0.24 \times 3.5 = \mathbf{0.84}\)<br>
+                                    <span class="text-[10px] text-slate-500">(2+1 = 3 desimal)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: PERSEN & KONVERSI -->
+        <section id="tab-percents" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <span class="text-xs font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-3 py-1 rounded-full">Oxford Standard Chapter 3</span>
+                    <h2 class="text-2xl font-bold text-slate-900 mt-2">Persentase & Konversi (Percentages)</h2>
+                    <p class="text-slate-600 text-sm mt-1">Konversi F-D-P (Fraction-Decimal-Percentage) dan perhitungan persentase kuantitas.</p>
+                </div>
+
+                <!-- Section 3.1: Konversi F-D-P -->
+                <div class="space-y-6">
+                    <div class="bg-slate-50 rounded-xl p-5 border border-slate-200">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 mb-3">
+                            <span class="w-6 h-6 bg-purple-600 text-white text-xs rounded-full flex items-center justify-center">1</span>
+                            Segitiga Konversi (F-D-P Conversion Trinity)
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-purple-700">Pecahan \(\rightarrow\) Desimal / Persen</h4>
+                                <p class="text-slate-600 mt-1">Bagi pembilang dengan penyebut, atau ubah penyebut ke 100.</p>
+                                <p class="font-mono mt-2 bg-slate-100 p-2 rounded">\(\frac{3}{5} = \frac{60}{100} = 0.60 = 60\%\)</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-purple-700">Desimal \(\rightarrow\) Pecahan (Simplest Form)</h4>
+                                <p class="text-slate-600 mt-1">Tulis sebagai pecahan per 10/100/1000 lalu sederhanakan.</p>
+                                <p class="font-mono mt-2 bg-slate-100 p-2 rounded">\(0.85 = \frac{85}{100} \div \frac{5}{5} = \frac{17}{20}\)</p>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl border border-slate-200">
+                                <h4 class="font-bold text-purple-700">Persen \(\rightarrow\) Kuantitas (Amount)</h4>
+                                <p class="text-slate-600 mt-1">Ubah persen ke desimal/pecahan lalu kalikan nilai total.</p>
+                                <p class="font-mono mt-2 bg-slate-100 p-2 rounded">\(20\% \text{ dari } £12,000 = 0.2 \times 12000 = £2400\)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabel Benchmark Konversi Cepat Oxford -->
+                    <div class="bg-white rounded-xl border border-slate-200 p-4">
+                        <h4 class="font-bold text-slate-800 text-sm mb-3">Tabel Konversi Penting yang Wajib Dihafal (Oxford Benchmarks):</h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-purple-900 text-white">
+                                        <th class="p-2 border border-purple-800">Fraction</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{1}{2}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{1}{4}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{3}{4}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{1}{5}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{2}{5}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{1}{8}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{3}{8}\)</th>
+                                        <th class="p-2 border border-purple-800">\(\frac{1}{10}\)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-slate-50">
+                                        <td class="p-2 border border-slate-200 font-bold">Decimal</td>
+                                        <td class="p-2 border border-slate-200">0.5</td>
+                                        <td class="p-2 border border-slate-200">0.25</td>
+                                        <td class="p-2 border border-slate-200">0.75</td>
+                                        <td class="p-2 border border-slate-200">0.2</td>
+                                        <td class="p-2 border border-slate-200">0.4</td>
+                                        <td class="p-2 border border-slate-200">0.125</td>
+                                        <td class="p-2 border border-slate-200">0.375</td>
+                                        <td class="p-2 border border-slate-200">0.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="p-2 border border-slate-200 font-bold">Percent</td>
+                                        <td class="p-2 border border-slate-200">50%</td>
+                                        <td class="p-2 border border-slate-200">25%</td>
+                                        <td class="p-2 border border-slate-200">75%</td>
+                                        <td class="p-2 border border-slate-200">20%</td>
+                                        <td class="p-2 border border-slate-200">40%</td>
+                                        <td class="p-2 border border-slate-200">12.5%</td>
+                                        <td class="p-2 border border-slate-200">37.5%</td>
+                                        <td class="p-2 border border-slate-200">10%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: SOAL APLIKASI PENERAPAN (EXAM TYPE - NEW VARIATIONS) -->
+        <section id="tab-applications" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-start flex-wrap gap-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Oxford Real Exam Application Style</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-2">Penerapan & Contoh Soal Standar Ujian Oxford</h2>
+                        <p class="text-slate-600 text-sm mt-1">Variasi soal cerita baru (berbeda dari pertemuan lalu) beserta step-by-step working solution lengkap.</p>
+                    </div>
+                    <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-lg border border-amber-300">
+                        <i class="fa-solid fa-graduation-cap mr-1"></i> Questions in English
+                    </span>
+                </div>
+
+                <div class="space-y-6">
+
+                    <!-- QUESTION TYPE 1: Fact Based Calculation & Money -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-amber-400 transition-colors">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded">Question 1: Fact-Based Money Problem</span>
+                            <span class="text-xs text-slate-500 font-semibold">[3 Marks]</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-800">
+                            <p class="font-medium text-slate-900">
+                                Use the fact that <span class="font-mono bg-slate-100 px-2 py-0.5 rounded font-bold text-indigo-700">18 × 45 = 810</span> to answer the question below:
+                            </p>
+                            <p class="mt-2 text-slate-700">
+                                Lucas buys <strong>18 custom notebooks</strong> for his club. Each notebook costs <strong>$0.45</strong>. He pays the cashier with a <strong>$20 note</strong>. Work out how much change Lucas should receive. Show all your working.
+                            </p>
+                        </div>
+
+                        <!-- Solution Collapsible -->
+                        <div class="mt-4">
+                            <button onclick="toggleSolution('sol-1')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-down" id="icon-sol-1"></i> View Step-by-Step Working & Explanation (Indonesian)
+                            </button>
+                            <div id="sol-1" class="hidden mt-3 p-4 bg-indigo-50/60 border border-indigo-100 rounded-lg text-xs space-y-2">
+                                <p class="font-bold text-indigo-900">Langkah Pengerjaan Detail:</p>
+                                <ol class="list-decimal list-inside text-slate-700 space-y-1">
+                                    <li><strong>Hitung Total Harga Beli:</strong> Menggunakan fakta \(18 \times 45 = 810\).<br>
+                                        Karena harganya \(\$0.45\) (ada 2 angka di belakang koma), maka:<br>
+                                        \(\text{Total Cost} = 18 \times \$0.45 = \mathbf{\$8.10}\).
+                                    </li>
+                                    <li><strong>Hitung Uang Kembalian (Change):</strong><br>
+                                        \(\text{Change} = \$20.00 - \$8.10 = \mathbf{\$11.90}\).
+                                    </li>
+                                </ol>
+                                <p class="text-emerald-700 font-bold border-t border-indigo-200 pt-2">Final Answer: Lucas should get $11.90 change.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QUESTION TYPE 2: Order of Operations & Error Analysis -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-amber-400 transition-colors">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded">Question 2: Error Analysis & BIDMAS / BODMAS</span>
+                            <span class="text-xs text-slate-500 font-semibold">[2 Marks]</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-800 space-y-2">
+                            <p>Hannah works out <span class="font-mono font-bold bg-slate-100 px-1.5 py-0.5 rounded text-indigo-700">4.2 + 3.6 × 0.4</span> and gets the answer <span class="font-mono text-red-600 font-bold">3.12</span>.</p>
+                            <p>Hannah's answer is wrong. Explain the mistake Hannah has made and find the correct answer.</p>
+                        </div>
+
+                        <!-- Solution Collapsible -->
+                        <div class="mt-4">
+                            <button onclick="toggleSolution('sol-2')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-down" id="icon-sol-2"></i> View Step-by-Step Working & Explanation (Indonesian)
+                            </button>
+                            <div id="sol-2" class="hidden mt-3 p-4 bg-indigo-50/60 border border-indigo-100 rounded-lg text-xs space-y-2">
+                                <p class="font-bold text-indigo-900">Analisis Kesalahan & Urutan Operasi (BODMAS):</p>
+                                <p class="text-slate-700">
+                                    <strong>Penjelasan Kesalahan (Explanation):</strong> Hannah melakukan penjumlahan terlebih dahulu (\(4.2 + 3.6 = 7.8\)) baru dikalikan \(0.4\). Ini salah karena menurut aturan hirarki operasi (BODMAS/BIDMAS), <strong>perkalian harus dikerjakan sebelum penjumlahan</strong>.
+                                </p>
+                                <div class="bg-white p-3 rounded border border-indigo-200 space-y-1">
+                                    <p class="font-bold text-slate-800">Langkah Pembetulan yang Benar:</p>
+                                    <p>1. Kerjakan perkalian dulu: \(3.6 \times 0.4 = 1.44\)</p>
+                                    <p>2. Lalu tambahkan: \(4.2 + 1.44 = \mathbf{5.64}\)</p>
+                                </div>
+                                <p class="text-emerald-700 font-bold border-t border-indigo-200 pt-2">Correct Answer: 5.64</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QUESTION TYPE 3: Pie Chart Sector Angle & Fractions -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-amber-400 transition-colors">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded">Question 3: Pie Chart Sector & Unknown Fraction</span>
+                            <span class="text-xs text-slate-500 font-semibold">[4 Marks]</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-800">
+                            <p class="mb-3">
+                                A survey was conducted on students' favorite sports. The fractions for each sport are given below:
+                            </p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs bg-slate-50 p-3 rounded border border-slate-200 mb-3">
+                                <div>Football: \(\frac{1}{3}\)</div>
+                                <div>Basketball: \(\frac{1}{4}\)</div>
+                                <div>Swimming: \(\frac{1}{6}\)</div>
+                                <div>Tennis: \(\frac{1}{8}\)</div>
+                                <div class="col-span-2 font-bold text-indigo-700">Badminton: [ Remaining ]</div>
+                            </div>
+                            <ol class="list-alpha list-inside space-y-1 text-slate-700">
+                                <li>Work out the fraction of students who chose <strong>Badminton</strong>. Give your fraction in its simplest form.</li>
+                                <li>Calculate the <strong>angle of the sector</strong> representing Badminton in a pie chart.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Solution Collapsible -->
+                        <div class="mt-4">
+                            <button onclick="toggleSolution('sol-3')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-down" id="icon-sol-3"></i> View Step-by-Step Working & Explanation (Indonesian)
+                            </button>
+                            <div id="sol-3" class="hidden mt-3 p-4 bg-indigo-50/60 border border-indigo-100 rounded-lg text-xs space-y-2">
+                                <p class="font-bold text-indigo-900">Langkah Pengerjaan Pie Chart Angle:</p>
+                                <div class="space-y-2 text-slate-700">
+                                    <p><strong>(a) Mencari Pecahan Sisa (Badminton):</strong></p>
+                                    <p>Total satu lingkaran penuh = 1.</p>
+                                    <p>KPK dari penyebut (\(3, 4, 6, 8\)) adalah <strong>24</strong>.</p>
+                                    <p>\(\text{Jumlah Olahraga Lain} = \frac{8}{24} + \frac{6}{24} + \frac{4}{24} + \frac{3}{24} = \frac{21}{24}\)</p>
+                                    <p>\(\text{Pecahan Badminton} = 1 - \frac{21}{24} = \frac{3}{24} = \mathbf{\frac{1}{8}}\)</p>
+
+                                    <p class="pt-2"><strong>(b) Menghitung Sudut Sektor (Sector Angle):</strong></p>
+                                    <p>Total sudut satu lingkaran penuh = \(360^\circ\).</p>
+                                    <p>\(\text{Sudut Badminton} = \frac{1}{8} \times 360^\circ = \mathbf{45^\circ}\)</p>
+                                </div>
+                                <p class="text-emerald-700 font-bold border-t border-indigo-200 pt-2">Final Answers: (a) 1/8 &nbsp;&nbsp;(b) 45°</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QUESTION TYPE 4: Multi-Step Tax & Salary Calculation -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-amber-400 transition-colors">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded">Question 4: Real-world Tax & Percentage</span>
+                            <span class="text-xs text-slate-500 font-semibold font-mono">[4 Marks]</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-800 space-y-2">
+                            <p>
+                                Amira earns <strong>$24,000 per year</strong>. The first <strong>$7,500</strong> of her income is <strong>untaxed</strong> (tax-free). The remaining income is taxed at a rate of <strong>15%</strong>.
+                            </p>
+                            <ol class="list-alpha list-inside space-y-1 text-slate-700">
+                                <li>How much tax does Amira pay per year?</li>
+                                <li>How much tax does Amira pay <strong>per month</strong>?</li>
+                                <li>What overall percentage of her total salary is paid as tax? Give your answer to 1 decimal place.</li>
+                            </ol>
+                        </div>
+
+                        <!-- Solution Collapsible -->
+                        <div class="mt-4">
+                            <button onclick="toggleSolution('sol-4')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-down" id="icon-sol-4"></i> View Step-by-Step Working & Explanation (Indonesian)
+                            </button>
+                            <div id="sol-4" class="hidden mt-3 p-4 bg-indigo-50/60 border border-indigo-100 rounded-lg text-xs space-y-2">
+                                <p class="font-bold text-indigo-900">Langkah Pengerjaan Pajak & Persentase:</p>
+                                <div class="space-y-2 text-slate-700">
+                                    <p><strong>(a) Pajak per Tahun:</strong></p>
+                                    <p>Penghasilan kena pajak = \(\$24,000 - \$7,500 = \$16,500\)</p>
+                                    <p>\(\text{Pajak Tahunan} = 15\% \times 16,500 = 0.15 \times 16,500 = \mathbf{\$2,475}\)</p>
+
+                                    <p><strong>(b) Pajak per Bulan:</strong></p>
+                                    <p>\(\text{Pajak Bulanan} = \frac{\$2,475}{12 \text{ bulan}} = \mathbf{\$206.25}\)</p>
+
+                                    <p><strong>(c) Persentase Total Pajak terhadap Gaji Utuh:</strong></p>
+                                    <p>\(\text{Persentase} = \left( \frac{2475}{24000} \right) \times 100\% = 10.3125\% \approx \mathbf{10.3\%}\)</p>
+                                </div>
+                                <p class="text-emerald-700 font-bold border-t border-indigo-200 pt-2">Final Answers: (a) $2475 &nbsp;&nbsp;(b) $206.25 &nbsp;&nbsp;(c) 10.3%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QUESTION TYPE 5: Fundraising Target Statement Verification -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 hover:border-amber-400 transition-colors">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded">Question 5: Fundraising & Target Verification</span>
+                            <span class="text-xs text-slate-500 font-semibold">[4 Marks]</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-slate-200 text-sm text-slate-800 space-y-3">
+                            <p class="font-semibold text-indigo-900 border-b border-slate-100 pb-2">School Science Club Fundraising Project</p>
+                            <p>The target for the fundraising event is <strong>$3,500</strong>.</p>
+                            <ul class="list-disc list-inside text-xs space-y-1 text-slate-700">
+                                <li><strong>Week 1:</strong> Students raised <strong>$1,120.40</strong> selling bake sale items.</li>
+                                <li><strong>Week 2:</strong> A sponsored run raised <strong>\(\frac{2}{5}\)</strong> of the total target amount.</li>
+                            </ul>
+                            <p class="text-slate-800 font-medium">
+                                At the end of Week 2, the coordinator says: <em>"We have already reached more than 70% of our target."</em>
+                            </p>
+                            <p class="text-xs text-slate-700 font-bold">
+                                Is the coordinator's statement correct? Explain by showing all your calculations.
+                            </p>
+                        </div>
+
+                        <!-- Solution Collapsible -->
+                        <div class="mt-4">
+                            <button onclick="toggleSolution('sol-5')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                                <i class="fa-solid fa-chevron-down" id="icon-sol-5"></i> View Step-by-Step Working & Explanation (Indonesian)
+                            </button>
+                            <div id="sol-5" class="hidden mt-3 p-4 bg-indigo-50/60 border border-indigo-100 rounded-lg text-xs space-y-2">
+                                <p class="font-bold text-indigo-900">Pembuktian Kebenaran Pernyataan (Verifikasi):</p>
+                                <div class="space-y-2 text-slate-700">
+                                    <p><strong>Langkah 1: Hitung Hasil Minggu 2:</strong></p>
+                                    <p>\(\text{Week 2} = \frac{2}{5} \times \$3,500 = 2 \times \$700 = \$1,400\)</p>
+
+                                    <p><strong>Langkah 2: Hitung Total Uang Terkumpul (Week 1 + Week 2):</strong></p>
+                                    <p>\(\text{Total} = \$1,120.40 + \$1,400.00 = \mathbf{\$2,520.40}\)</p>
+
+                                    <p><strong>Langkah 3: Hitung Nilai Target 70%:</strong></p>
+                                    <p>\(70\% \text{ dari } \$3,500 = 0.70 \times 3500 = \mathbf{\$2,450}\)</p>
+
+                                    <p><strong>Langkah 4: Bandingkan & Ambil Kesimpulan:</strong></p>
+                                    <p>Karena \(\$2,520.40 > \$2,450\), maka uang yang terkumpul memang <strong>lebih dari 70%</strong> dari target.</p>
+                                </div>
+                                <p class="text-emerald-700 font-bold border-t border-indigo-200 pt-2">
+                                    Final Answer: Yes, the coordinator is CORRECT because $2,520.40 is greater than $2,450 (which is 70% of the target).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: INTERACTIVE QUIZ & PRACTICE -->
+        <section id="tab-practice" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6 flex justify-between items-center flex-wrap gap-2">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Interactive Practice</span>
+                        <h2 class="text-2xl font-bold text-slate-900 mt-2">Oxford Math Self-Assessment Quiz</h2>
+                        <p class="text-slate-600 text-sm mt-1">Uji pemahamanmu secara langsung. Ketik jawabanmu lalu klik "Check Answer".</p>
+                    </div>
+                    <div id="quiz-score" class="bg-slate-100 px-4 py-2 rounded-xl text-slate-700 font-bold text-sm">
+                        Score: <span id="score-val" class="text-indigo-600">0</span> / 4
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+
+                    <!-- Interactive Question 1 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <p class="text-sm font-semibold text-slate-800">
+                            1. Write <span class="font-mono text-indigo-700 font-bold">0.68</span> as a fraction in its simplest form.
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <input type="text" id="q1-input" placeholder="" class="px-3 py-2 border border-slate-300 rounded-lg text-sm w-48 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <button onclick="checkQuiz(1, '17/25')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors">Check</button>
+                        </div>
+                        <p id="q1-feedback" class="text-xs font-bold hidden"></p>
+                    </div>
+
+                    <!-- Interactive Question 2 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <p class="text-sm font-semibold text-slate-800">
+                            2. Calculate: <span class="font-mono text-indigo-700 font-bold">5.82 ÷ 0.3</span>
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <input type="text" id="q2-input" placeholder="" class="px-3 py-2 border border-slate-300 rounded-lg text-sm w-48 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <button onclick="checkQuiz(2, '19.4')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors">Check</button>
+                        </div>
+                        <p id="q2-feedback" class="text-xs font-bold hidden"></p>
+                    </div>
+
+                    <!-- Interactive Question 3 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <p class="text-sm font-semibold text-slate-800">
+                            3. Use the fact that <span class="font-mono bg-white px-1 py-0.5 rounded border">15 × 28 = 420</span>. What is <span class="font-mono text-indigo-700 font-bold">1.5 × 0.28</span>?
+                        </p>
+                        <div class="flex items-center gap-3">
+                            <input type="text" id="q3-input" placeholder="" class="px-3 py-2 border border-slate-300 rounded-lg text-sm w-48 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <button onclick="checkQuiz(3, '0.42')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors">Check</button>
+                        </div>
+                        <p id="q3-feedback" class="text-xs font-bold hidden"></p>
+                    </div>
+
+                    <!-- Interactive Question 4 -->
+                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+                        <p class="text-sm font-semibold text-slate-800">
+                            4. Find <span class="font-mono text-indigo-700 font-bold">35% of $480</span>.
+                        </p>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <div class="relative">
+                                <span class="absolute left-3 top-2.5 text-xs text-slate-400">$</span>
+                                <input type="text" id="q4-input" placeholder="" class="pl-7 pr-3 py-2 border border-slate-300 rounded-lg text-sm w-48 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            </div>
+                            <button onclick="checkQuiz(4, '168')" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors">Check</button>
+                        </div>
+                        <p id="q4-feedback" class="text-xs font-bold hidden"></p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs space-y-1">
+            <p class="font-medium text-slate-300">Oxford Lower Secondary Mathematics Curriculum Interactive Module</p>
+            <p>Designed for Interactive Learning & Exam Preparation</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic Scripts -->
+    <script>
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all tab content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(el => el.classList.add('hidden'));
+
+            // Show selected tab content
+            const targetContent = document.getElementById('tab-' + tabId);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+
+            // Update tab button active states
+            const buttons = document.querySelectorAll('.tab-link');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-indigo-800', 'text-white');
+                btn.classList.add('text-indigo-200');
+            });
+
+            const activeBtn = document.getElementById('tab-btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-indigo-800', 'text-white');
+                activeBtn.classList.remove('text-indigo-200');
+            }
+
+            // Update mobile dropdown selector
+            const mobileNav = document.getElementById('mobile-nav');
+            if (mobileNav) {
+                mobileNav.value = tabId;
+            }
+
+            // Re-render MathJax formulas if available
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        // Toggle Working Solution Collapsibles
+        function toggleSolution(id) {
+            const solDiv = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            if (solDiv.classList.contains('hidden')) {
+                solDiv.classList.remove('hidden');
+                if (icon) icon.className = 'fa-solid fa-chevron-up';
+            } else {
+                solDiv.classList.add('hidden');
+                if (icon) icon.className = 'fa-solid fa-chevron-down';
+            }
+        }
+
+        // Interactive Quiz Verification Logic
+        let scoreState = { 1: false, 2: false, 3: false, 4: false };
+
+        function checkQuiz(qNum, correctAnswer) {
+            const inputEl = document.getElementById(`q${qNum}-input`);
+            const feedbackEl = document.getElementById(`q${qNum}-feedback`);
+            if (!inputEl || !feedbackEl) return;
+
+            const userAns = inputEl.value.trim().replace(/\s+/g, '');
+            const expected = correctAnswer.trim().replace(/\s+/g, '');
+
+            feedbackEl.classList.remove('hidden', 'text-emerald-600', 'text-red-600');
+
+            if (userAns === expected) {
+                feedbackEl.textContent = 'Correct! Great job.';
+                feedbackEl.classList.add('text-emerald-600');
+                scoreState[qNum] = true;
+            } else {
+                feedbackEl.textContent = `Incorrect. Expected: ${correctAnswer}`;
+                feedbackEl.classList.add('text-red-600');
+                scoreState[qNum] = false;
+            }
+
+            // Update total score
+            let total = 0;
+            for (let key in scoreState) {
+                if (scoreState[key]) total++;
+            }
+            const scoreValEl = document.getElementById('score-val');
+            if (scoreValEl) {
+                scoreValEl.textContent = total;
+            }
+        }
+    </script>
+</body>
+</html>
