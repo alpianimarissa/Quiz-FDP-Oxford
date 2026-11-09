@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oxford Mathematics: 30-Question Interactive Quiz</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- MathJax for rendering math expressions -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-font { font-family: 'Fira Code', monospace; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- Header Navigation Bar -->
+    <header class="bg-indigo-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-lg bg-indigo-500 flex items-center justify-center font-bold text-xl text-white shadow-inner">
+                    <i class="fa-solid fa-calculator"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Oxford Math Assessment</h1>
+                    <p class="text-xs text-indigo-200">Fractions, Decimals & Percentages (30 Interactive Questions)</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 bg-indigo-800 border border-indigo-700 px-3 py-1.5 rounded-xl">
+                <div>
+                    <div class="text-[10px] text-indigo-200 uppercase font-bold tracking-wider">Score</div>
+                    <div class="text-base font-extrabold text-white"><span id="quiz-total-score">0</span> / <span id="quiz-max-score">30</span></div>
+                </div>
+                <button onclick="resetQuizData()" class="bg-red-500/20 hover:bg-red-500/40 text-red-100 border border-red-400/40 px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors">
+                    <i class="fa-solid fa-rotate-right mr-1"></i> Reset
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            
+            <!-- Quiz Description -->
+            <div class="border-b border-slate-200 pb-4 mb-6">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Oxford Curriculum Assessment</span>
+                <h2 class="text-2xl font-bold text-slate-900 mt-2">Interactive Exam Practice (30 Questions)</h2>
+                <p class="text-slate-600 text-sm mt-1">Gunakan tombol <strong>Previous</strong> & <strong>Next</strong> atau klik nomor pada <strong>Question Map</strong> untuk berpindah soal. Jawaban Anda tersimpan otomatis.</p>
+            </div>
+
+            <!-- Main Layout: Sidebar Map & Single Question View -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                
+                <!-- Sidebar Question Map Navigator -->
+                <div class="lg:col-span-1 order-2 lg:order-1">
+                    <div class="sticky top-20 bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm">
+                        <h3 class="text-sm font-bold text-slate-800 mb-3 flex items-center justify-between">
+                            <span><i class="fa-solid fa-list-check text-indigo-600 mr-1.5"></i> Question Map</span>
+                            <span class="text-xs text-slate-500 font-normal" id="nav-answered-count">0/30</span>
+                        </h3>
+
+                        <!-- 30 Buttons Grid -->
+                        <div id="quiz-nav-grid" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto p-1 custom-scrollbar">
+                            <!-- JS injects Q1-Q30 -->
+                        </div>
+
+                        <!-- Status Indicator Legend -->
+                        <div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-2 gap-2 text-[10px]">
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-white border border-slate-300"></span> Empty</div>
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-200"></span> Typing...</div>
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Correct</div>
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> Incorrect</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Single Question View & Navigation Controls -->
+                <div class="lg:col-span-3 order-1 lg:order-2 flex flex-col justify-between space-y-6">
+                    <!-- Current Active Question Display -->
+                    <div id="quiz-single-question-container">
+                        <!-- Rendered by JavaScript -->
+                    </div>
+
+                    <!-- Previous / Next Controls -->
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-200">
+                        <button id="prev-btn" onclick="navigateQuestion(-1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i> Previous Question
+                        </button>
+                        <span id="current-page-indicator" class="text-xs font-bold text-indigo-900 bg-indigo-50 border border-indigo-200 px-3 py-1.5 rounded-lg">Question 1 of 30</span>
+                        <button id="next-btn" onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 shadow-xs">
+                            Next Question <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs space-y-1">
+            <p class="font-medium text-slate-300">Oxford Mathematics Curriculum Assessment Module</p>
+            <p>Grade 7 - 8 Fractions, Decimals & Percentages Practice</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic Scripts -->
+    <script>
+        /* -------------------------------------------------------------
+           30 OXFORD ESSAY QUESTIONS DATA BANK & PERSISTENCE ENGINE
+        ------------------------------------------------------------- */
+        let currentQuestionIndex = 0; // Tracks active question (0 to 29)
+
+        const quizData = [
+            // Q1
+            {
+                id: 1,
+                title: "Fact-Based Decimal Multiplication & Division",
+                prompt: "Use the given fact that <b>48 × 35 = 1680</b> to work out:",
+                parts: [
+                    { id: "q1_a", label: "(a) 4.8 × 3.5", expected: ["16.8", "16.80"] },
+                    { id: "q1_b", label: "(b) 168 ÷ 3.5", expected: ["48"] },
+                    { id: "q1_c", label: "(c) 0.48 × 350", expected: ["168"] }
+                ]
+            },
+            // Q2
+            {
+                id: 2,
+                title: "Order of Operations & Decimal Calculations",
+                prompt: "Calculate the exact values for the following decimal expressions:",
+                parts: [
+                    { id: "q2_a", label: "(a) Work out 4.2 + 3.6 × 0.4", expected: ["5.64"] },
+                    { id: "q2_b", label: "(b) Work out 18.9 - 6.4 ÷ 0.8", expected: ["10.9"] }
+                ]
+            },
+            // Q3
+            {
+                id: 3,
+                title: "Pie Chart Sectors & Angles",
+                prompt: `A pie chart displays the favourite sports of a year group.
+                <div class="my-4 flex flex-col items-center gap-2">
+                    <svg width="180" height="180" viewBox="0 0 100 100" class="drop-shadow-sm">
+                        <circle cx="50" cy="50" r="45" fill="#f8fafc"/>
+                        <!-- Football (2/5 = 144 deg) -->
+                        <path d="M50,50 L50,5 A45,45 0 0,1 76.45,86.41 Z" fill="#6366f1"/>
+                        <!-- Basketball (1/4 = 90 deg) -->
+                        <path d="M50,50 L76.45,86.41 A45,45 0 0,1 5,50 Z" fill="#10b981"/>
+                        <!-- Badminton (1/5 = 72 deg) -->
+                        <path d="M50,50 L5,50 A45,45 0 0,1 36.1,7.18 Z" fill="#f59e0b"/>
+                        <!-- Swimming (3/20 = 54 deg) -->
+                        <path d="M50,50 L36.1,7.18 A45,45 0 0,1 50,5 Z" fill="#ec4899"/>
+                    </svg>
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs font-medium">
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-indigo-600"></span> Football \\(\\left(\\frac{2}{5}\\right)\\)</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500"></span> Basketball \\(\\left(\\frac{1}{4}\\right)\\)</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-amber-500"></span> Badminton \\(\\left(\\frac{1}{5}\\right)\\)</div>
+                        <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-pink-500"></span> Swimming</div>
+                    </div>
+                </div>`,
+                parts: [
+                    { id: "q3_a", label: "(a) What fraction of students choose Swimming? (simplest form)", expected: ["3/20"] },
+                    { id: "q3_b", label: "(b) Calculate the angle in degrees for the Football sector", expected: ["144", "144°", "144 deg"] }
+                ]
+            },
+            // Q4
+            {
+                id: 4,
+                title: "Nutritional Value & Portion Calculations",
+                prompt: `A <b>300g</b> chocolate bar contains <b>16%</b> protein. The bar is divided into <b>25 equal squares</b>.
+                <div class="my-3 flex justify-center">
+                    <svg width="200" height="60" viewBox="0 0 200 60">
+                        <rect x="5" y="5" width="190" height="50" rx="5" fill="#78350f" stroke="#451a03" stroke-width="2.5"/>
+                        <line x1="5" y1="30" x2="195" y2="30" stroke="#451a03" stroke-width="1.5"/>
+                        <line x1="43" y1="5" x2="43" y2="55" stroke="#451a03" stroke-width="1.5"/>
+                        <line x1="81" y1="5" x2="81" y2="55" stroke="#451a03" stroke-width="1.5"/>
+                        <line x1="119" y1="5" x2="119" y2="55" stroke="#451a03" stroke-width="1.5"/>
+                        <line x1="157" y1="5" x2="157" y2="55" stroke="#451a03" stroke-width="1.5"/>
+                    </svg>
+                </div>`,
+                parts: [
+                    { id: "q4_a", label: "(a) How many grams of protein are in the entire bar?", expected: ["48", "48g"] },
+                    { id: "q4_b", label: "(b) How many grams of protein are in 5 squares of chocolate?", expected: ["9.6", "9.6g"] }
+                ]
+            },
+            // Q5
+            {
+                id: 5,
+                title: "Income Tax & Percentage Analysis",
+                prompt: "David earns <b>$24,000 per year</b>. The first <b>$6,000</b> is tax-free. The remaining income is taxed at <b>15%</b>.",
+                parts: [
+                    { id: "q5_a", label: "(a) Calculate the annual income tax David pays ($)", expected: ["2700", "$2700", "2,700"] },
+                    { id: "q5_b", label: "(b) Calculate his monthly tax payment ($)", expected: ["225", "$225"] },
+                    { id: "q5_c", label: "(c) What percentage of his total salary is paid as tax?", expected: ["11.25%", "11.25"] }
+                ]
+            },
+            // Q6
+            {
+                id: 6,
+                title: "School Library Fundraising Campaign",
+                prompt: "St. Jude School is raising funds for library equipment. The target is <b>$3,000</b>.<br>Week 1 raised <b>$950.50</b>. Week 2 raised \\(\\frac{2}{5}\\) of the target.",
+                parts: [
+                    { id: "q6_a", label: "(a) Calculate how much money was raised in Week 2 ($)", expected: ["1200", "$1200", "1200.00", "1,200"] },
+                    { id: "q6_b", label: "(b) What is the total amount raised at the end of Week 2 ($)?", expected: ["2150.50", "2150.5", "$2150.50", "2,150.50"] },
+                    { id: "q6_c", label: "(c) The principal claims they raised over 70% of the target. Is this claim correct? (Write Yes or No)", expected: ["yes", "Yes"] }
+                ]
+            },
+            // Q7
+            {
+                id: 7,
+                title: "Converting Decimals to Simplest Fractions",
+                prompt: "Convert each decimal into a fraction in its simplest form:",
+                parts: [
+                    { id: "q7_a", label: "(a) 0.65", expected: ["13/20"] },
+                    { id: "q7_b", label: "(b) 0.04", expected: ["1/25"] },
+                    { id: "q7_c", label: "(c) 0.625", expected: ["5/8"] }
+                ]
+            },
+            // Q8
+            {
+                id: 8,
+                title: "Rounding Decimals",
+                prompt: "Round the numbers as specified:",
+                parts: [
+                    { id: "q8_a", label: "(a) Round 7.896 to 2 decimal places", expected: ["7.90", "7.9"] },
+                    { id: "q8_b", label: "(b) Round 15.4289 to 1 decimal place", expected: ["15.4"] }
+                ]
+            },
+            // Q9
+            {
+                id: 9,
+                title: "Comparing Fractions & Decimals",
+                prompt: "Enter > or < to make each inequality true:",
+                parts: [
+                    { id: "q9_a", label: "(a) Compare \\(\\frac{9}{20}\\) ... 0.42", expected: [">"] },
+                    { id: "q9_b", label: "(b) Compare \\(\\frac{4}{5}\\) ... 0.83", expected: ["<"] }
+                ]
+            },
+            // Q10
+            {
+                id: 10,
+                title: "Fraction Division Methods",
+                prompt: "Solve the fraction divisions in simplest form:",
+                parts: [
+                    { id: "q10_a", label: "(a) Direct division: \\(\\frac{16}{27} \\div \\frac{4}{9}\\)", expected: ["4/3", "1 1/3"] },
+                    { id: "q10_b", label: "(b) Flip method (KCF): \\(\\frac{7}{12} \\div \\frac{5}{6}\\)", expected: ["7/10"] }
+                ]
+            },
+            // Q11
+            {
+                id: 11,
+                title: "Mixed Number Operations",
+                prompt: "Calculate and state your answers in simplest form:",
+                parts: [
+                    { id: "q11_a", label: "(a) \\(3\\frac{1}{4} - 1\\frac{5}{6}\\)", expected: ["1 5/12", "17/12"] },
+                    { id: "q11_b", label: "(b) \\(2\\frac{2}{3} \\times 1\\frac{1}{8}\\)", expected: ["3"] }
+                ]
+            },
+            // Q12
+            {
+                id: 12,
+                title: "Decimal Division Strategies",
+                prompt: "Calculate by converting divisor to a whole number:",
+                parts: [
+                    { id: "q12_a", label: "(a) 6.48 ÷ 0.9", expected: ["7.2"] },
+                    { id: "q12_b", label: "(b) 5.175 ÷ 1.5", expected: ["3.45"] }
+                ]
+            },
+            // Q13
+            {
+                id: 13,
+                title: "Percentage Change",
+                prompt: "Calculate the changed values:",
+                parts: [
+                    { id: "q13_a", label: "(a) Increase $240 by 15%", expected: ["276", "$276"] },
+                    { id: "q13_b", label: "(b) Decrease 120 kg by 35%", expected: ["78", "78kg", "78 kg"] }
+                ]
+            },
+            // Q14
+            {
+                id: 14,
+                title: "Reverse Percentage Problem",
+                prompt: "A pair of shoes costs <b>$72</b> during a sale after a <b>20% discount</b>.",
+                parts: [
+                    { id: "q14_a", label: "(a) What percentage of the original price is $72?", expected: ["80%", "80"] },
+                    { id: "q14_b", label: "(b) Work out the original price before discount ($)", expected: ["90", "$90"] }
+                ]
+            },
+            // Q15
+            {
+                id: 15,
+                title: "Fraction of Quantities",
+                prompt: "Work out the exact amounts:",
+                parts: [
+                    { id: "q15_a", label: "(a) \\(\\frac{7}{10}\\) of 450 km", expected: ["315", "315km", "315 km"] },
+                    { id: "q15_b", label: "(b) \\(\\frac{5}{12}\\) of $840", expected: ["350", "$350"] }
+                ]
+            },
+            // Q16
+            {
+                id: 16,
+                title: "Shopping Expenditure & Change",
+                prompt: "Adam buys 4 notebooks at <b>$3.60 each</b> and 3 highlighters at <b>$1.45 each</b>. He pays with a <b>$50 bill</b>.",
+                parts: [
+                    { id: "q16_a", label: "(a) Total cost of the items ($)", expected: ["18.75", "$18.75"] },
+                    { id: "q16_b", label: "(b) Change Adam receives ($)", expected: ["31.25", "$31.25"] }
+                ]
+            },
+            // Q17
+            {
+                id: 17,
+                title: "Oxford Conversion Benchmarks",
+                prompt: "Fill in the missing conversions:",
+                parts: [
+                    { id: "q17_a", label: "(a) Convert \\(\\frac{7}{8}\\) into a decimal", expected: ["0.875"] },
+                    { id: "q17_b", label: "(b) Convert 0.075 into a percentage", expected: ["7.5%", "7.5"] }
+                ]
+            },
+            // Q18
+            {
+                id: 18,
+                title: "Geometrical Decimal Measurements",
+                prompt: "A rectangular garden has length <b>12.6 m</b> and width <b>4.5 m</b>.",
+                parts: [
+                    { id: "q18_a", label: "(a) Calculate the perimeter (m)", expected: ["34.2", "34.2m"] },
+                    { id: "q18_b", label: "(b) Calculate the area (m²)", expected: ["56.7", "56.7m2", "56.7 m²"] }
+                ]
+            },
+            // Q19
+            {
+                id: 19,
+                title: "Classroom Travel Modes",
+                prompt: "In a year group of 120 students, \\(\\frac{3}{10}\\) travel by car, \\(\\frac{5}{12}\\) travel by bus, and the rest walk.",
+                parts: [
+                    { id: "q19_a", label: "(a) How many students travel by bus?", expected: ["50"] },
+                    { id: "q19_b", label: "(b) What fraction of students walk to school? (simplest form)", expected: ["17/60"] }
+                ]
+            },
+            // Q20
+            {
+                id: 20,
+                title: "Combined Operations (F-D-P)",
+                prompt: "Evaluate: \\(\\frac{4}{5} - 35\\% + 0.15\\)",
+                parts: [
+                    { id: "q20_a", label: "(a) Express final answer as a decimal", expected: ["0.6", "0.60"] },
+                    { id: "q20_b", label: "(b) Express final answer as a fraction in simplest form", expected: ["3/5"] }
+                ]
+            },
+            // Q21
+            {
+                id: 21,
+                title: "Mental Decimal Multiplications",
+                prompt: "Work out these decimal products:",
+                parts: [
+                    { id: "q21_a", label: "(a) 0.06 × 0.09", expected: ["0.0054"] },
+                    { id: "q21_b", label: "(b) 1.2 × 0.004", expected: ["0.0048"] }
+                ]
+            },
+            // Q22
+            {
+                id: 22,
+                title: "Speed, Distance & Decimal Hours",
+                prompt: "A train travels at <b>80 km/h</b> for <b>3.75 hours</b>.",
+                parts: [
+                    { id: "q22_a", label: "(a) Express 3.75 hours in hours and minutes", expected: ["3 hours 45 minutes", "3h 45m", "3 hours 45 mins"] },
+                    { id: "q22_b", label: "(b) Calculate total distance in km", expected: ["300", "300km"] }
+                ]
+            },
+            // Q23
+            {
+                id: 23,
+                title: "Recipe Scaling Fraction Problem",
+                prompt: "A bakery recipe calls for \\(2\\frac{1}{4}\\) cups of flour. The baker makes \\(1\\frac{1}{3}\\) batches.",
+                parts: [
+                    { id: "q23_a", label: "(a) How many cups of flour are needed?", expected: ["3", "3 cups"] }
+                ]
+            },
+            // Q24
+            {
+                id: 24,
+                title: "True or False Statements",
+                prompt: "State whether each mathematical statement is True or False:",
+                parts: [
+                    { id: "q24_a", label: "(a) 3 + 1.2 × 4.5 = 8.4 (True or False)", expected: ["true", "True"] },
+                    { id: "q24_b", label: "(b) 6.12 ÷ 0.3 = 2.04 (True or False)", expected: ["false", "False"] }
+                ]
+            },
+            // Q25
+            {
+                id: 25,
+                title: "Part of a Whole Percentage",
+                prompt: "In an exam of <b>160 total marks</b>, Sarah scored <b>116 marks</b>.",
+                parts: [
+                    { id: "q25_a", label: "(a) What fraction of marks did she score? (simplest form)", expected: ["29/40"] },
+                    { id: "q25_b", label: "(b) What is her score as a percentage?", expected: ["72.5%", "72.5"] }
+                ]
+            },
+            // Q26
+            {
+                id: 26,
+                title: "Sequential Decimal Pipeline",
+                prompt: "Start with number <b>16</b>. Multiply by <b>0.25</b>, add <b>4.75</b>, then divide by <b>0.5</b>.",
+                parts: [
+                    { id: "q26_a", label: "(a) Step 1 result (16 × 0.25)", expected: ["4"] },
+                    { id: "q26_b", label: "(b) Final result after all operations", expected: ["17.5", "17.50"] }
+                ]
+            },
+            // Q27
+            {
+                id: 27,
+                title: "Different Denominator Subtraction",
+                prompt: "Calculate: \\(\\frac{11}{12} - \\frac{3}{8}\\)",
+                parts: [
+                    { id: "q27_a", label: "(a) Find the LCM of denominators 12 and 8", expected: ["24"] },
+                    { id: "q27_b", label: "(b) Calculate final answer in simplest form", expected: ["13/24"] }
+                ]
+            },
+            // Q28
+            {
+                id: 28,
+                title: "Simple Interest Financial Calculation",
+                prompt: "Oliver deposits <b>$2,500</b> into a savings account with <b>3.5% simple interest per year</b> for <b>4 years</b>.",
+                parts: [
+                    { id: "q28_a", label: "(a) Annual interest earned ($)", expected: ["87.5", "87.50", "$87.50"] },
+                    { id: "q28_b", label: "(b) Total balance in account after 4 years ($)", expected: ["2850", "$2850", "2,850"] }
+                ]
+            },
+            // Q29
+            {
+                id: 29,
+                title: "Fraction Arithmetic with Brackets",
+                prompt: "Evaluate: \\(\\left(\\frac{3}{4} + \\frac{1}{6}\\right) \\div \\frac{11}{18}\\)",
+                parts: [
+                    { id: "q29_a", label: "(a) Evaluate inside bracket \\(\\left(\\frac{3}{4} + \\frac{1}{6}\\right)\\)", expected: ["11/12"] },
+                    { id: "q29_b", label: "(b) Final simplified result", expected: ["3/2", "1 1/2", "1.5"] }
+                ]
+            },
+            // Q30
+            {
+                id: 30,
+                title: "Retail Profit & Sale Discount",
+                prompt: "A trader buys a watch for <b>$150</b>. He marks up the price by <b>40%</b>, then offers a <b>15% discount</b> during sale.",
+                parts: [
+                    { id: "q30_a", label: "(a) Marked price before discount ($)", expected: ["210", "$210"] },
+                    { id: "q30_b", label: "(b) Final selling price after 15% discount ($)", expected: ["178.5", "178.50", "$178.50"] },
+                    { id: "q30_c", label: "(c) Net profit earned by the trader ($)", expected: ["28.5", "28.50", "$28.50"] }
+                ]
+            }
+        ];
+
+        const STORAGE_KEY = "oxford_quiz_standalone_state_v3";
+
+        function getSavedState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                return saved ? JSON.parse(saved) : {};
+            } catch(e) {
+                return {};
+            }
+        }
+
+        function saveState(state) {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch(e) {}
+        }
+
+        function initQuizEngine() {
+            renderNavGrid();
+            renderActiveQuestion();
+            updateOverallProgress();
+        }
+
+        function renderNavGrid() {
+            const navGrid = document.getElementById("quiz-nav-grid");
+            if (!navGrid) return;
+
+            let navHTML = "";
+            quizData.forEach((q, idx) => {
+                const qNum = idx + 1;
+                navHTML += `
+                    <button id="nav-btn-${qNum}" onclick="goToQuestion(${idx})" class="w-full h-8 rounded-lg text-xs font-bold border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 transition-all flex items-center justify-center">
+                        ${qNum}
+                    </button>
+                `;
+            });
+            navGrid.innerHTML = navHTML;
+        }
+
+        function renderActiveQuestion() {
+            const container = document.getElementById("quiz-single-question-container");
+            const pageIndicator = document.getElementById("current-page-indicator");
+            const prevBtn = document.getElementById("prev-btn");
+            const nextBtn = document.getElementById("next-btn");
+
+            if (!container) return;
+
+            const q = quizData[currentQuestionIndex];
+            const qNum = currentQuestionIndex + 1;
+            const state = getSavedState();
+
+            let cardHTML = `
+                <div id="q-card-${qNum}" class="bg-slate-50 border border-slate-200 rounded-xl p-6 shadow-xs">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-200 pb-3">
+                        <span class="text-xs font-bold text-indigo-800 bg-indigo-100 px-3 py-1 rounded-md">Question ${qNum}: ${q.title}</span>
+                        <span id="q-status-badge-${qNum}" class="text-xs font-semibold text-slate-400">Unanswered</span>
+                    </div>
+                    <div class="text-sm text-slate-800 mb-6 leading-relaxed">${q.prompt}</div>
+                    <div class="space-y-4">
+            `;
+
+            q.parts.forEach(part => {
+                const savedVal = state[part.id] ? state[part.id].value : "";
+                const isChecked = state[part.id] ? state[part.id].checked : false;
+                const isCorrect = state[part.id] ? state[part.id].correct : false;
+
+                let borderStyle = "border-slate-300";
+                let feedbackHTML = `<p id="feedback-${part.id}" class="text-xs font-bold mt-1.5 hidden"></p>`;
+
+                if (isChecked) {
+                    if (isCorrect) {
+                        borderStyle = "border-emerald-500 bg-emerald-50/50";
+                        feedbackHTML = `<p id="feedback-${part.id}" class="text-xs font-bold mt-1.5 text-emerald-600"><i class="fa-solid fa-circle-check"></i> Correct!</p>`;
+                    } else {
+                        borderStyle = "border-red-500 bg-red-50/50";
+                        feedbackHTML = `<p id="feedback-${part.id}" class="text-xs font-bold mt-1.5 text-red-600"><i class="fa-solid fa-circle-xmark"></i> Incorrect. (Expected: ${part.expected[0]})</p>`;
+                    }
+                }
+
+                cardHTML += `
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+                        <label class="block text-xs font-semibold text-slate-700 mb-2">${part.label}</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" id="input-${part.id}" value="${savedVal}"
+                                oninput="onInputAnswer('${part.id}', ${qNum})"
+                                class="px-3 py-2 border ${borderStyle} rounded-lg text-xs w-full max-w-md focus:ring-2 focus:ring-indigo-500 focus:outline-none transition-all">
+                            <button onclick="checkSinglePart('${part.id}', ${qNum})" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-indigo-700 transition-colors shadow-xs">Check</button>
+                        </div>
+                        ${feedbackHTML}
+                    </div>
+                `;
+            });
+
+            cardHTML += `</div></div>`;
+            container.innerHTML = cardHTML;
+
+            if (pageIndicator) pageIndicator.textContent = `Question ${qNum} of 30`;
+
+            if (prevBtn) {
+                prevBtn.disabled = currentQuestionIndex === 0;
+                prevBtn.classList.toggle("opacity-50", currentQuestionIndex === 0);
+                prevBtn.classList.toggle("cursor-not-allowed", currentQuestionIndex === 0);
+            }
+            if (nextBtn) {
+                nextBtn.disabled = currentQuestionIndex === quizData.length - 1;
+                nextBtn.classList.toggle("opacity-50", currentQuestionIndex === quizData.length - 1);
+                nextBtn.classList.toggle("cursor-not-allowed", currentQuestionIndex === quizData.length - 1);
+            }
+
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < quizData.length) {
+                currentQuestionIndex = newIndex;
+                renderActiveQuestion();
+                updateOverallProgress();
+            }
+        }
+
+        function goToQuestion(idx) {
+            if (idx >= 0 && idx < quizData.length) {
+                currentQuestionIndex = idx;
+                renderActiveQuestion();
+                updateOverallProgress();
+            }
+        }
+
+        function onInputAnswer(partId, qNum) {
+            const inputEl = document.getElementById(`input-${partId}`);
+            if (!inputEl) return;
+
+            const state = getSavedState();
+            state[partId] = {
+                value: inputEl.value,
+                checked: false,
+                correct: false
+            };
+            saveState(state);
+            updateOverallProgress();
+        }
+
+        function checkSinglePart(partId, qNum) {
+            const inputEl = document.getElementById(`input-${partId}`);
+            const feedbackEl = document.getElementById(`feedback-${partId}`);
+            if (!inputEl || !feedbackEl) return;
+
+            const userVal = inputEl.value.trim().toLowerCase().replace(/\s+/g, '');
+
+            let expectedArr = [];
+            for (let q of quizData) {
+                for (let p of q.parts) {
+                    if (p.id === partId) {
+                        expectedArr = p.expected;
+                        break;
+                    }
+                }
+            }
+
+            const isCorrect = expectedArr.some(exp => exp.toLowerCase().replace(/\s+/g, '') === userVal);
+
+            feedbackEl.classList.remove('hidden', 'text-emerald-600', 'text-red-600');
+            inputEl.classList.remove('border-slate-300', 'border-emerald-500', 'border-red-500', 'bg-emerald-50/50', 'bg-red-50/50');
+
+            if (isCorrect) {
+                feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Correct!`;
+                feedbackEl.classList.add('text-emerald-600');
+                inputEl.classList.add('border-emerald-500', 'bg-emerald-50/50');
+            } else {
+                feedbackEl.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> Incorrect. (Expected: ${expectedArr[0]})`;
+                feedbackEl.classList.add('text-red-600');
+                inputEl.classList.add('border-red-500', 'bg-red-50/50');
+            }
+
+            const state = getSavedState();
+            state[partId] = {
+                value: inputEl.value,
+                checked: true,
+                correct: isCorrect
+            };
+            saveState(state);
+
+            updateOverallProgress();
+        }
+
+        function updateOverallProgress() {
+            const state = getSavedState();
+            let totalCorrectQuestions = 0;
+            let answeredQuestionsCount = 0;
+
+            quizData.forEach((q, idx) => {
+                const qNum = idx + 1;
+                const navBtn = document.getElementById(`nav-btn-${qNum}`);
+
+                let checkedPartsCount = 0;
+                let correctPartsCount = 0;
+                let hasInput = false;
+
+                q.parts.forEach(p => {
+                    if (state[p.id]) {
+                        if (state[p.id].value && state[p.id].value.trim() !== "") hasInput = true;
+                        if (state[p.id].checked) {
+                            checkedPartsCount++;
+                            if (state[p.id].correct) correctPartsCount++;
+                        }
+                    }
+                });
+
+                if (correctPartsCount === q.parts.length) {
+                    totalCorrectQuestions++;
+                }
+
+                if (hasInput || checkedPartsCount > 0) {
+                    answeredQuestionsCount++;
+                }
+
+                if (navBtn) {
+                    navBtn.className = "w-full h-8 rounded-lg text-xs font-bold border transition-all flex items-center justify-center ";
+                    if (idx === currentQuestionIndex) {
+                        navBtn.classList.add("ring-2", "ring-indigo-600", "ring-offset-1");
+                    }
+                    if (checkedPartsCount === q.parts.length && correctPartsCount === q.parts.length) {
+                        navBtn.classList.add("bg-emerald-500", "text-white", "border-emerald-600");
+                    } else if (checkedPartsCount === q.parts.length && correctPartsCount === 0) {
+                        navBtn.classList.add("bg-red-500", "text-white", "border-red-600");
+                    } else if (checkedPartsCount > 0) {
+                        navBtn.classList.add("bg-amber-400", "text-slate-900", "border-amber-500");
+                    } else if (hasInput) {
+                        navBtn.classList.add("bg-indigo-100", "text-indigo-800", "border-indigo-300");
+                    } else {
+                        navBtn.classList.add("bg-white", "text-slate-700", "border-slate-300");
+                    }
+                }
+
+                if (idx === currentQuestionIndex) {
+                    const badge = document.getElementById(`q-status-badge-${qNum}`);
+                    if (badge) {
+                        if (checkedPartsCount === q.parts.length) {
+                            if (correctPartsCount === q.parts.length) {
+                                badge.textContent = "Correct";
+                                badge.className = "text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded";
+                            } else {
+                                badge.textContent = "Checked";
+                                badge.className = "text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded";
+                            }
+                        } else if (hasInput) {
+                            badge.textContent = "In Progress";
+                            badge.className = "text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded";
+                        } else {
+                            badge.textContent = "Unanswered";
+                            badge.className = "text-xs font-semibold text-slate-400";
+                        }
+                    }
+                }
+            });
+
+            const scoreEl = document.getElementById("quiz-total-score");
+            const navCountEl = document.getElementById("nav-answered-count");
+            if (scoreEl) scoreEl.textContent = totalCorrectQuestions;
+            if (navCountEl) navCountEl.textContent = `${answeredQuestionsCount}/30`;
+        }
+
+        function resetQuizData() {
+            if (confirm("Apakah Anda yakin ingin mengosongkan semua jawaban kuis?")) {
+                localStorage.removeItem(STORAGE_KEY);
+                currentQuestionIndex = 0;
+                initQuizEngine();
+            }
+        }
+
+        window.onload = function() {
+            initQuizEngine();
+        };
+    </script>
+</body>
+</html>
